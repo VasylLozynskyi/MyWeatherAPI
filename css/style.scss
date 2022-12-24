@@ -1,0 +1,95 @@
+@import "./zero_css.scss";
+$bc: rgb(65, 55, 55);
+
+.container{
+    background-color: antiquewhite;
+    padding: 50px;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    h1{
+        font-size: 30px;
+        margin-bottom: 30px;
+        font-weight: 900;
+    }
+    .enterCitysBlock{
+        display: flex;
+        align-items: center;
+        @media (max-width: 600px) {
+            display: block;  
+            text-align: center;
+        }
+    }
+    label{
+        font-size: 20px;
+    }
+    #cityValue{
+        margin: 10px;
+        font-size: 20px;
+        border: 1px solid $bc;
+    }
+    .btn-remove, .btn{
+        background-color: brown;
+        width: 60px;
+        height: 30px;
+        border-radius: 15px;
+        margin: 10px 0;
+        color: aliceblue;
+    }
+    .btn{
+        background-color: $bc;
+        height: 25px;
+    }
+    #weather{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        width: 600px;
+        @media (max-width: 600px) {
+            display: block;
+        }
+    }
+    .weather > div{
+        max-width: 300px;
+        min-height: 100px;
+        margin: 5px auto;
+        background-color:burlywood;
+        display: flex;
+        flex-direction: column; 
+        justify-content: space-around;   
+        align-items: center;
+        border: 1px solid black;
+        .weather-header{
+            width: 290px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            hr{
+                height: 2px;
+                width: 100%;
+                background-color: $bc;
+            }
+            .main{
+                width: 70%;
+                display: flex;
+                justify-content: space-between;
+            }
+            .city{
+                font-size: 20px;
+            }
+        }
+        hr{
+            height: 2px;
+            width: 100%;
+            background-color: $bc;
+        }
+    }
+    
+    .temperature{
+        margin: 10px;
+    }
+}

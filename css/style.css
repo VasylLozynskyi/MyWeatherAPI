@@ -74,7 +74,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .container {
   background-color: antiquewhite;
-  padding: 50px;
+  padding: 40px 10px 10px 10px;
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   display: flex;
   flex-direction: column;

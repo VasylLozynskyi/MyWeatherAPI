@@ -7,17 +7,19 @@ class Weather{
         this.weatherBlock = weatherBlock;
         this.server = server;
         this.city = city;
+        this.lon = 0;
+        this.lat = 0;
     }
 
-    async loadweather(){    
+    async loadweather(){ 
         const response = await fetch(this.server, {
             method: "GET",
         });
         const responseResult = await response.json();
         if (response.ok) {
-            if(this.city == responseResult.name){
-                this.getWeather(responseResult);
-            }
+                if(this.city == responseResult.name){
+                    this.getWeather(responseResult);
+                } 
         } else {
             this.createElement(responseResult.message);
         }
@@ -47,7 +49,10 @@ class Weather{
     }
     createElement(value) {
         let newEl = document.createElement("div");
-        newEl.innerHTML = value;
+       if (value == "Nothing to geocode"){
+            newEl.classList.add("notFindCity");
+            newEl.innerHTML = `${value}<br>Server coudn't found <b>${this.city}</b> city`;
+        } else newEl.innerHTML = value;
         let btn = document.createElement("button");
         btn.classList.add("btn-remove");
         btn.textContent = "Remove";
@@ -58,18 +63,52 @@ class Weather{
         this.weatherBlock.append(newEl);
     }
     async loadcity(){
-        let getLatLonFromServer = `https://api.openweathermap.org/geo/1.0/direct?q=${cityInput.value}&limit=5&appid=bfa3a7ce18d4bf2802239bd30542e93e`;
-        const response = await fetch(getLatLonFromServer, {
+        let loading = document.querySelector(".loading");
+        if (loading) loading.parentElement.remove();
+        if (this.lon == 0 && this.lat == 0){
+            let getLatLonFromServer = `https://api.openweathermap.org/geo/1.0/direct?q=${cityInput.value}&limit=10&appid=bfa3a7ce18d4bf2802239bd30542e93e`;
+            const response = await fetch(getLatLonFromServer, {
+                method: "GET",
+            });
+            const responseResult = await response.json();
+            if (response.ok) {
+                for (let i = 0; i < responseResult.length; i++){
+                    if (Object.values(responseResult[i].local_names).indexOf(this.city) > -1 && this.city == responseResult[i].name){
+                        this.server = `https://api.openweathermap.org/data/2.5/weather?lat=${responseResult[i].lat}&lon=${responseResult[i].lon}&appid=bfa3a7ce18d4bf2802239bd30542e93e`;
+                        this.loadweather();
+                        
+                    }
+                }
+            } else {this.createElement(responseResult.message);}
+        } else {
+            this.server = `https://api.openweathermap.org/data/2.5/weather?lat=${this.lat}&lon=${this.lon}&appid=bfa3a7ce18d4bf2802239bd30542e93e`;
+            this.loadweather();
+        }
+        
+    }
+
+    async findCity(){
+        let temp = document.createElement("div");
+        temp.innerHTML = `
+        <div class="loading">
+            <img src="./img/Loading_icon.gif" alt="loading-gif">
+        </div> `;
+        this.weatherBlock.append(temp);
+        let fileCities = `./citys/city.list.json`;
+        const response = await fetch(fileCities, {
             method: "GET",
         });
         const responseResult = await response.json();
         if (response.ok) {
-            for (let i = 0; i < responseResult.length; i++){
-                if (this.city == responseResult[i].name){
-                    this.server = `https://api.openweathermap.org/data/2.5/weather?lat=${responseResult[i].lat}&lon=${responseResult[i].lon}&appid=bfa3a7ce18d4bf2802239bd30542e93e`;
-                    this.loadweather();
+            for (let i = 0; i < responseResult.length; i++) {
+                if (this.city == responseResult[i].name && responseResult[i].state == ""){
+                    this.lon = responseResult[i].coord.lon;
+                    this.lat = responseResult[i].coord.lat;
+                    this.loadcity();
                 }
             }
+            if (this.lon == 0 && this.lat == 0) this.loadcity();
+
         } else {this.createElement(responseResult.message);}
     }
 
@@ -94,15 +133,14 @@ function checkedCity() {
               .split(' ')
               .map(word => word[0])
               .join('');
-          
             return firstLetters;
         }
         let letter = getFirstLetters(cityInput.value);
         if(letter === letter.toUpperCase()){
             let link = new Weather(weatherBlock, cityInput.value);
-            link.loadcity();
+            link.findCity();
             cityInput.value = "";
-            alert("City is good enterred. Please check weather");
+            alert("City is good enterred. Please look to weather");
         } else alert("Enter correct city with big first letter");
         
         

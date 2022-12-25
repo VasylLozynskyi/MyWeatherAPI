@@ -88,7 +88,17 @@ $bc: rgb(65, 55, 55);
             background-color: $bc;
         }
     }
-    
+    .loading{
+        img{
+            width: 290px;
+            height: 150px;
+        }
+    }
+    .notFindCity{
+        text-align: center;
+        width: 290px;
+        height: 150px;
+    }
     .temperature{
         margin: 10px;
     }

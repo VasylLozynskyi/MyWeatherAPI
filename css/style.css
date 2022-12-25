@@ -164,6 +164,15 @@ h1, h2, h3, h4, h5, h6 {
   width: 100%;
   background-color: rgb(65, 55, 55);
 }
+.container .loading img {
+  width: 290px;
+  height: 150px;
+}
+.container .notFindCity {
+  text-align: center;
+  width: 290px;
+  height: 150px;
+}
 .container .temperature {
   margin: 10px;
 }

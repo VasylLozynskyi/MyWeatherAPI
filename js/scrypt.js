@@ -3,13 +3,13 @@ const cityInput = document.querySelector("#cityValue");
 const btnForCity = document.querySelector(".btn");
 
 class Weather{
-    constructor(weatherBlock, server, city){
+    constructor(weatherBlock, city, server,){
         this.weatherBlock = weatherBlock;
         this.server = server;
         this.city = city;
     }
 
-    async loadweather(e){    
+    async loadweather(){    
         const response = await fetch(this.server, {
             method: "GET",
         });
@@ -22,7 +22,6 @@ class Weather{
             this.createElement(responseResult.message);
         }
     }
-
     getWeather(data) {
         const location = data.name;
         const temp = Math.round(data.main.temp - 273,15);
@@ -30,7 +29,6 @@ class Weather{
         const weatherStatus = data.weather[0].main;
         const weahterIcon = data.weather[0].icon;
         const country = data.sys.country;
-        console.log(data);
         const template = `
         <div class="weather-header">
             <div class="main">
@@ -59,14 +57,29 @@ class Weather{
         newEl.append(btn);
         this.weatherBlock.append(newEl);
     }
+    async loadcity(){
+        let getLatLonFromServer = `https://api.openweathermap.org/geo/1.0/direct?q=${cityInput.value}&limit=5&appid=bfa3a7ce18d4bf2802239bd30542e93e`;
+        const response = await fetch(getLatLonFromServer, {
+            method: "GET",
+        });
+        const responseResult = await response.json();
+        if (response.ok) {
+            for (let i = 0; i < responseResult.length; i++){
+                if (this.city == responseResult[i].name){
+                    this.server = `https://api.openweathermap.org/data/2.5/weather?lat=${responseResult[i].lat}&lon=${responseResult[i].lon}&appid=bfa3a7ce18d4bf2802239bd30542e93e`;
+                    this.loadweather();
+                }
+            }
+        } else {this.createElement(responseResult.message);}
+    }
 
 }
 
 //http://api.openweathermap.org/geo/1.0/direct?q=London&limit=5&appid=bfa3a7ce18d4bf2802239bd30542e93e
 
-let london = new Weather(weatherBlock, "https://api.openweathermap.org/data/2.5/weather?lat=51.5085&lon=-0.1257&appid=bfa3a7ce18d4bf2802239bd30542e93e", "London");
-let newYork = new Weather(weatherBlock, "https://api.openweathermap.org/data/2.5/weather?lat=43.0004&lon=-75.4999&appid=bfa3a7ce18d4bf2802239bd30542e93e", "New York");
-let kyiv = new Weather(weatherBlock, "https://api.openweathermap.org/data/2.5/weather?lat=50.4333&lon=30.5167&appid=bfa3a7ce18d4bf2802239bd30542e93e", "Kyiv");
+let london = new Weather(weatherBlock,"London", "https://api.openweathermap.org/data/2.5/weather?lat=51.5085&lon=-0.1257&appid=bfa3a7ce18d4bf2802239bd30542e93e");
+let newYork = new Weather(weatherBlock, "New York", "https://api.openweathermap.org/data/2.5/weather?lat=43.0004&lon=-75.4999&appid=bfa3a7ce18d4bf2802239bd30542e93e");
+let kyiv = new Weather(weatherBlock, "Kyiv", "https://api.openweathermap.org/data/2.5/weather?lat=50.4333&lon=30.5167&appid=bfa3a7ce18d4bf2802239bd30542e93e");
 
 if(weatherBlock) {
     london.loadweather();
@@ -75,23 +88,9 @@ if(weatherBlock) {
 }
 
 btnForCity.addEventListener("click", function() {
-        if (cityInput.value){
-        let server = `https://api.openweathermap.org/geo/1.0/direct?q=${cityInput.value}&limit=5&appid=bfa3a7ce18d4bf2802239bd30542e93e`;
-        loadcity(cityInput.value);
-        async function loadcity(e){    
-            const response = await fetch(server, {
-                method: "GET",
-            });
-            const responseResult = await response.json();
-            if (response.ok) {
-                for (let i = 0; i < responseResult.length; i++){
-                    if (cityInput.value == responseResult[i].name){
-                        let link = `https://api.openweathermap.org/data/2.5/weather?lat=${responseResult[i].lat}&lon=${responseResult[i].lon}&appid=bfa3a7ce18d4bf2802239bd30542e93e`;
-                        new Weather(weatherBlock, link, cityInput.value).loadweather();
-                    }
-                }
-            } else {this.createElement(responseResult.message);}
-        }
+    if (cityInput.value){
+        let link = new Weather(weatherBlock, cityInput.value);
+        link.loadcity();
     }
-    });
+});
 

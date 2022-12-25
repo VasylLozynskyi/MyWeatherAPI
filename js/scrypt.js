@@ -87,10 +87,32 @@ if(weatherBlock) {
     kyiv.loadweather();
 }
 
-btnForCity.addEventListener("click", function() {
+function checkedCity() {
     if (cityInput.value){
-        let link = new Weather(weatherBlock, cityInput.value);
-        link.loadcity();
+        function getFirstLetters(str) {
+            const firstLetters = str
+              .split(' ')
+              .map(word => word[0])
+              .join('');
+          
+            return firstLetters;
+        }
+        let letter = getFirstLetters(cityInput.value);
+        if(letter === letter.toUpperCase()){
+            let link = new Weather(weatherBlock, cityInput.value);
+            link.loadcity();
+        } else alert("Enter correct city with big first letter")
+        
+        
+    } else alert("Please enter a city");
+}
+
+window.addEventListener("keydown", function (e) {
+    if (e.code == "Enter") {
+        checkedCity();
     }
 });
 
+btnForCity.addEventListener("click", function() {
+    checkedCity();
+});

@@ -17,11 +17,12 @@ class Weather{
         });
         const responseResult = await response.json();
         if (response.ok) {
+            console.log(responseResult.name);
                 if(this.city == responseResult.name){
                     this.getWeather(responseResult);
                 } 
         } else {
-            this.createElement(responseResult.message);
+            this.createEl(responseResult.message);
         }
     }
     getWeather(data) {
@@ -44,10 +45,10 @@ class Weather{
         </div>
         <div class="temperature">${temp}°C</div>
         <div class="feels-like">Feels like: ${feelsLike}°C</div>`;
-        this.createElement(template);
+        this.createEl(template);
         
     }
-    createElement(value) {
+    createEl(value) {
         let newEl = document.createElement("div");
        if (value == "Nothing to geocode"){
             newEl.classList.add("notFindCity");
@@ -66,20 +67,27 @@ class Weather{
         let loading = document.querySelector(".loading");
         if (loading) loading.parentElement.remove();
         if (this.lon == 0 && this.lat == 0){
-            let getLatLonFromServer = `https://api.openweathermap.org/geo/1.0/direct?q=${cityInput.value}&limit=10&appid=bfa3a7ce18d4bf2802239bd30542e93e`;
+            let getLatLonFromServer = `https://api.openweathermap.org/geo/1.0/direct?q=${this.city}&limit=10&appid=bfa3a7ce18d4bf2802239bd30542e93e`;
             const response = await fetch(getLatLonFromServer, {
                 method: "GET",
             });
             const responseResult = await response.json();
             if (response.ok) {
                 for (let i = 0; i < responseResult.length; i++){
-                    if (Object.values(responseResult[i].local_names).indexOf(this.city) > -1 && this.city == responseResult[i].name){
-                        this.server = `https://api.openweathermap.org/data/2.5/weather?lat=${responseResult[i].lat}&lon=${responseResult[i].lon}&appid=bfa3a7ce18d4bf2802239bd30542e93e`;
-                        this.loadweather();
-                        
+                    if (responseResult[i].local_names != undefined) {
+                        if (Object.values(responseResult[i].local_names).indexOf(this.city) > -1){
+                            this.city = responseResult[i].local_names.en;
+                            this.lat = responseResult[i].lat;
+                            this.lon = responseResult[i].lon;
+                            this.server = `https://api.openweathermap.org/data/2.5/weather?lat=${this.lat}&lon=${this.lon}&appid=bfa3a7ce18d4bf2802239bd30542e93e`;
+                            this.loadweather();
+                        }
                     }
                 }
-            } else {this.createElement(responseResult.message);}
+                if (this.lon == 0 && this.lat == 0) {
+                    this.createEl("Nothing to geocode");
+                }
+            } else {this.createEl(responseResult.message);}
         } else {
             this.server = `https://api.openweathermap.org/data/2.5/weather?lat=${this.lat}&lon=${this.lon}&appid=bfa3a7ce18d4bf2802239bd30542e93e`;
             this.loadweather();
@@ -101,15 +109,17 @@ class Weather{
         const responseResult = await response.json();
         if (response.ok) {
             for (let i = 0; i < responseResult.length; i++) {
-                if (this.city == responseResult[i].name && responseResult[i].state == ""){
+                if (this.city == responseResult[i].name){
                     this.lon = responseResult[i].coord.lon;
                     this.lat = responseResult[i].coord.lat;
                     this.loadcity();
                 }
             }
-            if (this.lon == 0 && this.lat == 0) this.loadcity();
+            if (this.lon == 0 && this.lat == 0) {
+                this.loadcity();
+            }
 
-        } else {this.createElement(responseResult.message);}
+        } else {this.createEl(responseResult.message);}
     }
 
 }
@@ -136,7 +146,7 @@ function checkedCity() {
             return firstLetters;
         }
         let letter = getFirstLetters(cityInput.value);
-        if(letter === letter.toUpperCase()){
+        if(letter === letter.toUpperCase() && isNaN(cityInput.value)){
             let link = new Weather(weatherBlock, cityInput.value);
             link.findCity();
             cityInput.value = "";

@@ -8,8 +8,8 @@ $bc: rgb(65, 55, 55);
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 100vh;
-    width: 100vh;
+    width: 100%;
+    min-height: 100vh;
     h1{
         font-size: 30px;
         margin-bottom: 30px;

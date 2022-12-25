@@ -39,7 +39,7 @@ class Weather{
                 <div class="status">${weatherStatus}</div>
             </div>
             <div class="icon">
-                <img src="http://openweathermap.org/img/wn/${weahterIcon}.png" alt="${weatherStatus}">
+                <img src="https://openweathermap.org/img/wn/${weahterIcon}.png" alt="${weatherStatus}">
             </div>
         </div>
         <div class="temperature">${temp}°C</div>
@@ -76,7 +76,7 @@ if(weatherBlock) {
 
 btnForCity.addEventListener("click", function() {
         if (cityInput.value){
-        let server = `http://api.openweathermap.org/geo/1.0/direct?q=${cityInput.value}&limit=5&appid=bfa3a7ce18d4bf2802239bd30542e93e`;
+        let server = `https://api.openweathermap.org/geo/1.0/direct?q=${cityInput.value}&limit=5&appid=bfa3a7ce18d4bf2802239bd30542e93e`;
         loadcity(cityInput.value);
         async function loadcity(e){    
             const response = await fetch(server, {

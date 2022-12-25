@@ -102,7 +102,8 @@ function checkedCity() {
             let link = new Weather(weatherBlock, cityInput.value);
             link.loadcity();
             cityInput.value = "";
-        } else alert("Enter correct city with big first letter")
+            alert("City is good enterred. Please check weather");
+        } else alert("Enter correct city with big first letter");
         
         
     } else alert("Please enter a city");

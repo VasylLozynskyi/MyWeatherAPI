@@ -102,7 +102,7 @@ class Weather{
             <img src="./img/Loading_icon.gif" alt="loading-gif">
         </div> `;
         this.weatherBlock.append(temp);
-        let fileCities = `./citys/city.list.json`;
+        let fileCities = `./cities/city.list.json`;
         const response = await fetch(fileCities, {
             method: "GET",
         });

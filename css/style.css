@@ -87,12 +87,12 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 30px;
   font-weight: 900;
 }
-.container .enterCitysBlock {
+.container .enterCityBlock {
   display: flex;
   align-items: center;
 }
 @media (max-width: 600px) {
-  .container .enterCitysBlock {
+  .container .enterCityBlock {
     display: block;
     text-align: center;
   }

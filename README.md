@@ -4,3 +4,4 @@
 3. Add description.
 4. Open block to see more datas about weather onclicked city.
 5. Add btn to see in onclick city the weather for a week.
+- can't do that - api.openweathermap.org have price.

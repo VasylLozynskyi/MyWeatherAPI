@@ -73,7 +73,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .container {
-  background-color: antiquewhite;
+  background: radial-gradient(circle, rgb(174, 238, 224) 0%, rgb(251, 251, 251) 100%, rgb(148, 187, 233) 100%);
   padding: 40px 10px 10px 10px;
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   display: flex;
@@ -103,19 +103,17 @@ h1, h2, h3, h4, h5, h6 {
 .container #cityValue {
   margin: 10px;
   font-size: 20px;
-  border: 1px solid rgb(65, 55, 55);
 }
-.container .btn-remove, .container .btn {
-  background-color: brown;
+.container .btn {
+  background: radial-gradient(circle, rgb(63, 64, 251) 79%, rgb(252, 70, 107) 89%);
   width: 60px;
   height: 30px;
   border-radius: 15px;
   margin: 10px 0;
   color: aliceblue;
 }
-.container .btn {
-  background-color: rgb(65, 55, 55);
-  height: 25px;
+.container .btn-remove {
+  background-color: brown;
 }
 .container #weather {
   display: flex;
@@ -133,23 +131,18 @@ h1, h2, h3, h4, h5, h6 {
   max-width: 300px;
   min-height: 100px;
   margin: 5px auto;
-  background-color: burlywood;
+  background: radial-gradient(circle, rgb(174, 238, 224) 18%, rgb(190, 181, 218) 53%, rgb(148, 187, 233) 100%);
+  border-radius: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  border: 1px solid black;
 }
 .container .weather > div .weather-header {
   width: 290px;
   display: flex;
   justify-content: space-around;
   align-items: center;
-}
-.container .weather > div .weather-header hr {
-  height: 2px;
-  width: 100%;
-  background-color: rgb(65, 55, 55);
 }
 .container .weather > div .weather-header .main {
   width: 70%;
@@ -159,10 +152,13 @@ h1, h2, h3, h4, h5, h6 {
 .container .weather > div .weather-header .city {
   font-size: 20px;
 }
-.container .weather > div hr {
-  height: 2px;
-  width: 100%;
-  background-color: rgb(65, 55, 55);
+.container .weather > div .buttons {
+  display: flex;
+  width: 90%;
+  justify-content: space-between;
+}
+.container .weather > div .buttons .btn-forecast, .container .weather > div .buttons .btn-moreDetail {
+  width: 80px;
 }
 .container .loading img {
   width: 290px;
@@ -172,9 +168,6 @@ h1, h2, h3, h4, h5, h6 {
   text-align: center;
   width: 290px;
   height: 150px;
-}
-.container .temperature {
-  margin: 10px;
 }
 
 /*# sourceMappingURL=style.css.map */

@@ -1,8 +1,8 @@
 @import "./zero_css.scss";
-$bc: rgb(65, 55, 55);
+$bc: radial-gradient(circle, rgba(63,64,251,1) 79%, rgba(252,70,107,1) 89%);
 
 .container{
-    background-color: antiquewhite;
+    background: radial-gradient(circle, rgba(174,238,224,1) 0%, rgba(251,251,251,1) 100%, rgba(148,187,233,1) 100%);
     padding: 40px 10px 10px 10px;
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     display: flex;
@@ -29,19 +29,17 @@ $bc: rgb(65, 55, 55);
     #cityValue{
         margin: 10px;
         font-size: 20px;
-        border: 1px solid $bc;
     }
-    .btn-remove, .btn{
-        background-color: brown;
+    .btn{
+        background: $bc;
         width: 60px;
         height: 30px;
         border-radius: 15px;
         margin: 10px 0;
         color: aliceblue;
     }
-    .btn{
-        background-color: $bc;
-        height: 25px;
+    .btn-remove{
+        background-color: brown;
     }
     #weather{
         display: flex;
@@ -57,22 +55,17 @@ $bc: rgb(65, 55, 55);
         max-width: 300px;
         min-height: 100px;
         margin: 5px auto;
-        background-color:burlywood;
+        background: radial-gradient(circle, rgba(174,238,224,1) 18%, rgba(190,181,218,1) 53%, rgba(148,187,233,1) 100%);
+        border-radius: 20px;
         display: flex;
         flex-direction: column; 
         justify-content: space-around;   
         align-items: center;
-        border: 1px solid black;
         .weather-header{
             width: 290px;
             display: flex;
             justify-content: space-around;
             align-items: center;
-            hr{
-                height: 2px;
-                width: 100%;
-                background-color: $bc;
-            }
             .main{
                 width: 70%;
                 display: flex;
@@ -82,10 +75,14 @@ $bc: rgb(65, 55, 55);
                 font-size: 20px;
             }
         }
-        hr{
-            height: 2px;
-            width: 100%;
-            background-color: $bc;
+        .buttons{
+            display: flex;
+            width: 90%;
+            justify-content: space-between;
+            .btn-forecast, .btn-moreDetail{
+                width: 80px;
+
+            }
         }
     }
     .loading{
@@ -98,8 +95,5 @@ $bc: rgb(65, 55, 55);
         text-align: center;
         width: 290px;
         height: 150px;
-    }
-    .temperature{
-        margin: 10px;
     }
 }

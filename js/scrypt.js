@@ -43,10 +43,13 @@ class Weather{
                 <img src="https://openweathermap.org/img/wn/${weahterIcon}.png" alt="${weatherStatus}">
             </div>
         </div>
+        <div class="buttons">
+            <button class="btn btn-forecast">Forecast 5 days</button>
+            <button class="btn btn-moreDetail">more details</button>
+        </div>
         <div class="temperature">${temp}°C</div>
         <div class="feels-like">Feels like: ${feelsLike}°C</div>`;
         this.createEl(template);
-        
     }
     createEl(value) {
         let newEl = document.createElement("div");
@@ -54,13 +57,13 @@ class Weather{
             newEl.classList.add("notFindCity");
             newEl.innerHTML = `${value}<br>Server coudn't found <b>${this.city}</b> city`;
         } else newEl.innerHTML = value;
-        let btn = document.createElement("button");
-        btn.classList.add("btn-remove");
-        btn.textContent = "Remove";
-        btn.addEventListener("click", () => {
-            btn.parentElement.remove();
+        let btnRemove = document.createElement("button");
+        btnRemove.classList.add("btn", "btn-remove");
+        btnRemove.textContent = "Remove";
+        btnRemove.addEventListener("click", () => {
+            this.parentElement.parentElement.remove();
         });
-        newEl.append(btn);
+        newEl.append(btnRemove);
         this.weatherBlock.append(newEl);
     }
     async loadcity(){
@@ -94,7 +97,6 @@ class Weather{
         }
         
     }
-
     async findCity(){
         let temp = document.createElement("div");
         temp.innerHTML = `
@@ -121,7 +123,19 @@ class Weather{
 
         } else {this.createEl(responseResult.message);}
     }
-
+    async weatherFor5Days() {
+        let weatherFor5Days = `https://api.openweathermap.org/data/2.5/forecast?lat=${this.lat}&lon=${this.lon}&appid=bfa3a7ce18d4bf2802239bd30542e93e`;
+        const response = await fetch(weatherFor5Days, {
+            method: "GET",
+        });
+        const responseResult = await response.json();
+        if (response.ok) {
+            console.log(responseResult);
+               
+        } else {
+            console.log(responseResult.message);
+        }
+        }
 }
 
 //http://api.openweathermap.org/geo/1.0/direct?q=London&limit=5&appid=bfa3a7ce18d4bf2802239bd30542e93e
@@ -150,7 +164,6 @@ function checkedCity() {
             let link = new Weather(weatherBlock, cityInput.value);
             link.findCity();
             cityInput.value = "";
-            alert("City is good enterred. Please look to weather");
         } else alert("Enter correct city with big first letter");
         
         

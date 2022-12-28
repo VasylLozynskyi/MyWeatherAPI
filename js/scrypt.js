@@ -145,9 +145,6 @@ class Weather{
                         }
                     }
                 }
-                if (!checkCoords) { // send errormesage to function which rendering weather block if not find in api.openweathermap.org server data with input city name
-                    this.createEl("Nothing to geocode");
-                }
             } else {this.createEl(responseResult.message);} // send message if can't reed server
         } else {
             this.server = `https://api.openweathermap.org/data/2.5/weather?lat=${this.lat}&lon=${this.lon}&appid=bfa3a7ce18d4bf2802239bd30542e93e`;

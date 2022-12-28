@@ -1,3 +1,6 @@
+This api shows 3 default cities. Have input to add city block with weather. Open in pop-up forecast weather of city. Have conversation temperature.
+I tride to do search with inputs names cities in many lenguages and many cities founding in api.openweathermap.org but this api have only 24 lenguages in data and some names cities are incorrect writes in data, some sities don't found in data but if write it in other lenguage it founds (list of lenguages in object data have differents length).
+
 # MyWeatherAPI
 1. Add checkbox to see in which type of temperature we have to see our city-block.
 - done.

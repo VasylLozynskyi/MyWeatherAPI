@@ -153,7 +153,7 @@ class Weather{
         
     }
     // function look to find object in file which load from api.openweathermap.org free version
-    async findCity(){
+     findCity(){
         // rendering gif for wait done looking for object with needed name of city
         let temp = document.createElement("div");
         temp.innerHTML = `
@@ -161,11 +161,9 @@ class Weather{
             <img src="./img/Loading_icon.gif" alt="loading-gif">
         </div> `;
         this.weatherBlock.append(temp);
-        let fileCities = `./cities/city.list.json`; // link for file (file have only en lenguages names city)
-        const response = await fetch(fileCities, {
-            method: "GET",
-        });
-        const responseResult = await response.json();
+        let fileCities = "./cities/city.list.json"; // link for file (file have only en lenguages names city)
+        const response =  fetch(fileCities);
+        const responseResult =  response.then(unit => {unit.json()});
             for (let i = 0; i < responseResult.length; i++) {
                 if (this.city == responseResult[i].name){ // checked input value (city name) with data city name in objects found in file
                     // save coords if find in file data

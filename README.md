@@ -11,3 +11,6 @@ I tride to do search with inputs names cities in many lenguages and many cities 
 - done.
 5. Add btn to see in onclick city the weather for a week.
 - show free forecast for 5 days.
+6. Change validation of big first letter in name city that custom rename city with big first letter and delete valifation in this part of code.
+-
+7. Do more correct fatch with input city on other lenguages.

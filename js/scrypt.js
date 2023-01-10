@@ -139,9 +139,11 @@ class Weather{
                         if (Object.values(responseResult[i].local_names).indexOf(this.city) > -1){ // check if found in object-data unit lenguages any name city
                             this.city = responseResult[i].local_names.en; // save city in en lenguage
                             checkCoords = true;
-                            //save url to api.openweathermap.org to get data
-                            this.server = `https://api.openweathermap.org/data/2.5/weather?lat=${responseResult[i].lat}&lon=${responseResult[i].lon}&appid=bfa3a7ce18d4bf2802239bd30542e93e`;
-                            this.loadweather(checkCoords);
+                            this.findCity();
+                            break;
+                             //save url to api.openweathermap.org to get data
+                             //this.server = `https://api.openweathermap.org/data/2.5/weather?lat=${responseResult[i].lat}&lon=${responseResult[i].lon}&appid=bfa3a7ce18d4bf2802239bd30542e93e`;
+                             //this.loadweather(checkCoords);
                         }
                     }
                 }
@@ -153,7 +155,7 @@ class Weather{
         
     }
     // function look to find object in file which load from api.openweathermap.org free version
-     findCity(){
+    async findCity(){
         // rendering gif for wait done looking for object with needed name of city
         let temp = document.createElement("div");
         temp.innerHTML = `
@@ -162,19 +164,24 @@ class Weather{
         </div> `;
         this.weatherBlock.append(temp);
         let fileCities = "./cities/city.list.json"; // link for file (file have only en lenguages names city)
-        const response =  fetch(fileCities);
-        const responseResult =  response.then(unit => {unit.json()});
-            for (let i = 0; i < responseResult.length; i++) {
+        const response = await fetch(fileCities, {
+            method: "GET",
+        });
+        const responseResult = await response.json();
+        if (response.ok) {
+        for (let i = 0; i < responseResult.length; i++) {
                 if (this.city == responseResult[i].name){ // checked input value (city name) with data city name in objects found in file
                     // save coords if find in file data
                     this.lon = responseResult[i].coord.lon; 
                     this.lat = responseResult[i].coord.lat;
                     this.loadcity();
+                    break;
                 }
             }
             if (this.lon == undefined && this.lat == undefined) { // call function even if don't found city in file
-                this.loadcity();
+              this.loadcity();
             }
+        }
     }
     
     // catch url to api to get data forecast to 5 days

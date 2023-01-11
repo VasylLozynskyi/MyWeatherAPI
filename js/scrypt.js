@@ -312,20 +312,22 @@ if(weatherBlock) {  // look  if element weatherblock is call methods for cities 
 // look if user write correct input value as a name of city
 function checkedCity() {
     if (cityInput.value){ // look if in value input is somethisng
-        function getFirstLetters(str) { // function which get first Letter of sity
-            const firstLetters = str
-              .split(' ')
-              .map(word => word[0])
-              .join('');
-            return firstLetters;
-        }
-        let letter = getFirstLetters(cityInput.value); // call function for get first letter
-        if(letter === letter.toUpperCase() && isNaN(cityInput.value)){ // look if first letter is Big and if input value user write number
+        // function getFirstLetters(str) { // function which get first Letter of city
+        //     const firstLetters = str
+        //       .split(' ')
+        //       .map(word => word[0])
+        //       .join('')
+        //       .toUpperCase();
+        //     return firstLetters;
+        // }
+        //let letter = getFirstLetters(cityInput.value); // call function for get first letter
+        cityInput.value = cityInput.value.charAt(0).toUpperCase() + cityInput.value.slice(1)
+        if (isNaN(cityInput.value)){ // if input value user write number
             let link = new Weather(weatherBlock, cityInput.value); // add custom class 
             link.findCity(); //call in custom class method
             cityInput.value = ""; // reset input
         } else { // show error message for big first letter
-            cityInput.nextElementSibling.textContent = "Enter correct city with big first letter";
+            cityInput.nextElementSibling.textContent = "Enter correct city not a number";
             cityInput.style.border = "1px solid red";
         }
     } else { // show error message if value input have nothing

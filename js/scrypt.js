@@ -10,6 +10,7 @@ class Weather{
         this.city = city; // name city in en lenguage 
         this.lon = lon; // coord longitude
         this.lat = lat; // coord latitude
+        this.cikle = false;
     }
         // loaded data from server api.openweathermap.org
     async loadweather(checkCoords){ 
@@ -18,6 +19,7 @@ class Weather{
         });
         const responseResult = await response.json();
         if (response.ok) {
+            console.log(responseResult);
                 if(this.city == responseResult.name){
                     if(checkCoords){// check if input city in other lenguage then english
                         // save coords if user input name city in other lenguage then english
@@ -36,7 +38,7 @@ class Weather{
         const country = data.sys.country; // in what country is this city
         const temp = +Math.round(data.main.temp - 273.15); // current temperature
         const feelsLike = +Math.round(data.main.feels_like - 273.15); // current feels_like temperature
-        const weatherStatus = data.weather[0].main; // current status weather (ex.: rain, clouds, clear)
+        const weatherStatus = data.weather[0].description; // current status weather (ex.: rain, clouds, clear)
         const weahterIcon = data.weather[0].icon; // get icon  status weather
         const wind = data.wind.speed; // current speed wind
         const humidity = data.main.humidity; 
@@ -66,11 +68,11 @@ class Weather{
         <div class="humidity block">Humidity: ${humidity}%</div>
         <div class="pressure block">Pressure: ${pressure}hPa</div>`;
         
-        this.createEl(template); // call function rendering weather block
+        this.createEl(template, weatherStatus); // call function rendering weather block
         //°C
     }
     // rendering weather block
-    createEl(value) {
+    createEl(value, weatherStatus) {
         let newEl = document.createElement("div");
         //look if we have error message
        if (value == "Nothing to geocode"){
@@ -80,15 +82,43 @@ class Weather{
             newEl.innerHTML = value;
             newEl.append(this.createBtns());  //rendering with call function which create buttons(forecast and details)
         }
-        // create remove button
-        let btnRemove = document.createElement("button");
-        btnRemove.classList.add("btn", "btn-remove");
-        btnRemove.textContent = "Remove";
-        btnRemove.addEventListener("click", () => {
-            btnRemove.parentElement.remove();
-        });
-        newEl.append(btnRemove); // rendering remove button into weather block
+        let some = "../img/background.jpg";
+        let color = "black";
+
+        switch (weatherStatus) {
+            case "moderate rain":
+                some = "../img/water-rain.gif";
+                color = "hsla(80%, 80%, 94%)"
+                break;
+            case "light rain":
+                    some = "../img/water-rain.gif";
+                    color = "hsla(80%, 80%, 94%)"
+                    break;
+            case "few clouds":
+                some = "../img/Lx0q.gif";
+                color = "rgb(32, 27, 27)";
+                break;
+            case "overcast clouds":
+                
+                break;
+            case "broken clouds":
+                
+                break;
+            case "scattered clouds":
+                
+                break;
+            case "clear sky":
+                
+                break;
+            default:
+                break;
+        }
+
+        newEl.style.backgroundImage = `url("${some}")`;
+        newEl.style.color = color;
         this.weatherBlock.append(newEl); // rendering weather block with data-template
+    
+
         
     }
     // create (forecast and moreDetails buttons)
@@ -111,8 +141,12 @@ class Weather{
            humidity.classList.toggle("block");
            pressure.classList.toggle("block");
         });
+        let popBg = document.createElement("div");
+        popBg.classList.add("popup");
+        popBg.classList.add("hidden")
         btnForecast.addEventListener("click", () =>{
-            this.forecast5Days(); // call function after click on button to open pop-up with forecast
+            popBg.classList.toggle("hidden");
+            this.forecast5Days(popBg); // call function after click on button to open pop-up with forecast
         });
         // rendering buttons
         div.append(btnForecast);
@@ -123,8 +157,6 @@ class Weather{
     // if don't get some data from file
     // this need if user enter name city in other lenguage then english
     async loadcity(){
-        let loading = document.querySelector(".loading"); //catch html element gif loading
-        if (loading) loading.parentElement.remove(); //check if is - remove
         if (this.lon == undefined && this.lat == undefined){ // check coords
             let getCoordsFromServer = `https://api.openweathermap.org/geo/1.0/direct?q=${this.city}&limit=10&appid=bfa3a7ce18d4bf2802239bd30542e93e`;
             const response = await fetch(getCoordsFromServer, {
@@ -139,16 +171,25 @@ class Weather{
                         if (Object.values(responseResult[i].local_names).indexOf(this.city) > -1){ // check if found in object-data unit lenguages any name city
                             this.city = responseResult[i].local_names.en; // save city in en lenguage
                             checkCoords = true;
+                            if (!this.cikle){
+                            this.cikle = true;
                             this.findCity();
                             break;
+                            } else {
+                            let loading = document.querySelector(".loading"); //catch html element gif loading
+                            if (loading) loading.parentElement.remove(); //check if is - remove
                              //save url to api.openweathermap.org to get data
-                             //this.server = `https://api.openweathermap.org/data/2.5/weather?lat=${responseResult[i].lat}&lon=${responseResult[i].lon}&appid=bfa3a7ce18d4bf2802239bd30542e93e`;
-                             //this.loadweather(checkCoords);
+                             this.server = `https://api.openweathermap.org/data/2.5/weather?lat=${responseResult[i].lat}&lon=${responseResult[i].lon}&appid=bfa3a7ce18d4bf2802239bd30542e93e`;
+                            // this.cikle = false;
+                             this.loadweather(checkCoords);
+                            }
                         }
                     }
                 }
             } else {this.createEl(responseResult.message);} // send message if can't reed server
         } else {
+            let loading = document.querySelector(".loading"); //catch html element gif loading
+            if (loading) loading.parentElement.remove(); //check if is - remove
             this.server = `https://api.openweathermap.org/data/2.5/weather?lat=${this.lat}&lon=${this.lon}&appid=bfa3a7ce18d4bf2802239bd30542e93e`;
             this.loadweather();
         }
@@ -157,12 +198,16 @@ class Weather{
     // function look to find object in file which load from api.openweathermap.org free version
     async findCity(){
         // rendering gif for wait done looking for object with needed name of city
-        let temp = document.createElement("div");
-        temp.innerHTML = `
-        <div class="loading">
-            <img src="./img/Loading_icon.gif" alt="loading-gif">
-        </div> `;
-        this.weatherBlock.append(temp);
+        let loading = document.querySelector(".loading"); //catch html element gif loading
+        if (loading == null){
+            let temp = document.createElement("div");
+            temp.innerHTML = `
+            <div class="loading">
+                <img src="./img/Loading_icon.gif" alt="loading-gif">
+            </div> `;
+            this.weatherBlock.innerHTML = "";
+            this.weatherBlock.append(temp);
+        }
         let fileCities = "./cities/city.list.json"; // link for file (file have only en lenguages names city)
         const response = await fetch(fileCities, {
             method: "GET",
@@ -177,15 +222,15 @@ class Weather{
                     this.loadcity();
                     break;
                 }
-            }
-            if (this.lon == undefined && this.lat == undefined) { // call function even if don't found city in file
-              this.loadcity();
+        }
+        if (this.lon == undefined && this.lat == undefined) { // call function even if don't found city in file
+            this.loadcity();
             }
         }
     }
     
     // catch url to api to get data forecast to 5 days
-    async forecast5Days() {
+    async forecast5Days(popBg) {
         let forecast5Days = `https://api.openweathermap.org/data/2.5/forecast?lat=${this.lat}&lon=${this.lon}&appid=bfa3a7ce18d4bf2802239bd30542e93e`;
         const response = await fetch(forecast5Days, {
             method: "GET",
@@ -193,7 +238,7 @@ class Weather{
         const responseResult = await response.json();
         if (response.ok) {
              let popup = new PopupForecast(responseResult); //create custom pop-up
-             popup.show();
+             popup.show(popBg);
         } else {
             console.log(responseResult.message);
         }
@@ -205,42 +250,17 @@ class PopupForecast{
         this.data = data; // data from server api
     }
     // rendering pop-up block forecast
-    show(){
-        let popBg = document.querySelector(".background-popup"); // catch block pop-up
-        let btnClose = popBg.querySelector(".btn-close"); // catch button close
+    show(popBg){
+        if (popBg.innerHTML == ""){
+        let p = document.querySelector(".buttons");
+        //let popBg = document.querySelector(".background-popup"); // catch block pop-up
+        let btnClose = document.createElement("button");
+        btnClose.classList.add(".btn-close"); // catch button close
+        btnClose.style.background = "black";
         btnClose.addEventListener("click", function() {
-            popBg.style.display = "none"; // hide pop-up
-            // remove info for not cloning info data after second call method show() in same weather block
-            main.remove(); 
-            popBg.lastElementChild.innerHTML = "";
+            popBg.remove();
         });
-        // close pop-up if click on background window
-        window.addEventListener("click", function(event) {
-            if (event.target == popBg) { // check click only on background element pop-up
-                popBg.style.display = "none"; // hide pop-up
-                // remove info for not cloning info data after second call method show() in same weather block
-                main.remove();
-                popBg.lastElementChild.innerHTML = "";
-            }
-        });  
-        //change styles for show block
-        popBg.style.display = "flex";
-        popBg.lastElementChild.style.display = "flex";
-        // create and rendering html element header-pop-up for correct show info
-        let main = document.createElement("section");
-        main.classList.add("header-popup")
-        main.innerHTML = `
-        <div class="city">${this.data.city.name}</div>
-        <div class="country">country: ${this.data.city.country}</div>
-        <div class="checkradio-popup">
-            <input type="radio" name="temperature" data-temperature="kelvin" value="kelvin">
-            <p>°K</p>
-            <input type="radio" name="temperature"data-temperature="farenheit" value="farenheit">
-            <p>°F</p>
-            <input type="radio" name="temperature" data-temperature="celsius" value="celsius" checked>
-            <p>°C</p>
-        </div>`;
-        popBg.firstElementChild.append(main);
+        popBg.append(btnClose);
         // create and rendering 5 blocks as 5 days info weather
         for (let i = 4; i < this.data.list.length; i = i+8) {
             //create block
@@ -248,66 +268,46 @@ class PopupForecast{
             let date = new Date(el.dt_txt); // catch date in current data
             let options = { weekday: 'long'}; // for transform index week day to name day of week
             const template = `
-        <div class="weather-header">
-            <div class="main">
+        <div class="weather-popup">
+            <div class="main-popup">
                 <div class="date">${new Intl.DateTimeFormat('en-US', options).format(date)}</div>
             </div>
-            <div class="status">${el.weather[0].main}</div>
             <div class="icon">
                 <img src="https://openweathermap.org/img/wn/${el.weather[0].icon}.png" alt="${el.weather[0].icon}">
+                <div class="status">${el.weather[0].description}</div>
             </div>
         </div>
         <div>
-            <div class="temperature">${Math.round(el.main.temp - 273,15)}</div>
-            <p>°C</p>
-        </div>
-        <div>
-            <div class="textContent-feels-like">Feels like: </div>
-            <div class="feels-like">${Math.round(el.main.feels_like - 273,15)}</div>
-            <p>°C</p>
+            <div>
+                <div class="temperature">${Math.round(el.main.temp - 273,15)}</div>
+                <p>°C</p>
+            </div>
+            <div>
+                <div class="textContent-feels-like">Feels like: </div>
+                <div class="feels-like">${Math.round(el.main.feels_like - 273,15)}</div>
+                <p>°C</p>
+            </div>
         </div>`;
         //rendering block
         let div = document.createElement("div");
+        div.classList.add("flex-forecast")
         div.innerHTML = template;
-        popBg.lastElementChild.append(div);
+        popBg.append(div);
         }
-        //converse temperature (°C, °K, °F) after change input radio buttons in popup
-        const inputElPopup = document.querySelectorAll(".checkradio-popup input");  
-        inputElPopup.forEach(el => {
-            let previousElValue;
-            if (el.checked) {
-                el.dataset.last = true;
-            }
-            el.addEventListener("change", () =>{
-                previousElValue = document.querySelector('.checkradio-popup input[data-last="true"]').dataset.temperature;
-                console.log(previousElValue);
-                document.querySelector('.checkradio-popup input[data-last="true"]').dataset.last = false;
-                document.querySelector('.checkradio-popup input[name="temperature"]:checked').dataset.last = true;
-               this.getValueTemperaturePopup(document.querySelector('.checkradio-popup input[name="temperature"]:checked').dataset.temperature, previousElValue);
-            });
-        });
+        p.insertAdjacentElement("afterend", popBg);
     }
-    getValueTemperaturePopup(value, previousValue) {
-        const divsTemperature = document.querySelectorAll(".container-popup .temperature");
-        const divsFeelTemperature = document.querySelectorAll(".container-popup .feels-like");
-        divsTemperature.forEach(el => {
-            conversationTemperature(value, previousValue, el);
-        });
-        divsFeelTemperature.forEach(el => {
-            conversationTemperature(value, previousValue, el);
-        });  
-    }
+}
 }
 
 // simple add cities default
-let london = new Weather(weatherBlock,"London", "https://api.openweathermap.org/data/2.5/weather?lat=51.5085&lon=-0.1257&appid=bfa3a7ce18d4bf2802239bd30542e93e", 51.5085, -0.1257);
-let newYork = new Weather(weatherBlock, "New York", "https://api.openweathermap.org/data/2.5/weather?lat=43.0004&lon=-75.4999&appid=bfa3a7ce18d4bf2802239bd30542e93e", 43.0004, -75.4999);
-let kyiv = new Weather(weatherBlock, "Kyiv", "https://api.openweathermap.org/data/2.5/weather?lat=50.4333&lon=30.5167&appid=bfa3a7ce18d4bf2802239bd30542e93e", 50.4333, 30.5167);
+// let london = new Weather(weatherBlock,"London", "https://api.openweathermap.org/data/2.5/weather?lat=51.5085&lon=-0.1257&appid=bfa3a7ce18d4bf2802239bd30542e93e", 51.5085, -0.1257);
+// let newYork = new Weather(weatherBlock, "New York", "https://api.openweathermap.org/data/2.5/weather?lat=43.0004&lon=-75.4999&appid=bfa3a7ce18d4bf2802239bd30542e93e", 43.0004, -75.4999);
+let link = new Weather(weatherBlock, "Kyiv", "https://api.openweathermap.org/data/2.5/weather?lat=50.4333&lon=30.5167&appid=bfa3a7ce18d4bf2802239bd30542e93e", 50.4333, 30.5167);
 
 if(weatherBlock) {  // look  if element weatherblock is call methods for cities default
-    london.loadweather(true); // true because have coords in default
-    newYork.loadweather(true);
-    kyiv.loadweather(true);
+    // london.loadweather(true); // true because have coords in default
+    // newYork.loadweather(true);
+    link.loadweather(true);
 }
 // look if user write correct input value as a name of city
 function checkedCity() {
@@ -323,16 +323,20 @@ function checkedCity() {
         //let letter = getFirstLetters(cityInput.value); // call function for get first letter
         cityInput.value = cityInput.value.charAt(0).toUpperCase() + cityInput.value.slice(1)
         if (isNaN(cityInput.value)){ // if input value user write number
-            let link = new Weather(weatherBlock, cityInput.value); // add custom class 
+            //let link = new Weather(weatherBlock, cityInput.value); // add custom class 
+            link.city = cityInput.value;
+            link.lat = undefined;
+            link.lon = undefined;
+            link.cikle = false;
             link.findCity(); //call in custom class method
             cityInput.value = ""; // reset input
         } else { // show error message for big first letter
             cityInput.nextElementSibling.textContent = "Enter correct city not a number";
-            cityInput.style.border = "1px solid red";
+            cityInput.style.border = "0.5px solid red";
         }
     } else { // show error message if value input have nothing
         cityInput.nextElementSibling.textContent = "Please enter a city";
-        cityInput.style.border = "1px solid red";
+        cityInput.style.border = "0.5px solid red";
     }
 }
 //converse temperature (°C, °K, °F) after change input radio buttons

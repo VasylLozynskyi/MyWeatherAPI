@@ -3,25 +3,20 @@
   margin: 0;
   border: 0;
 }
-
 *, *:before, *:after {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
-
 :focus, :active {
   outline: none;
 }
-
 a:focus, a:active {
   outline: none;
 }
-
 nav, footer, header, aside {
   display: block;
 }
-
 html, body {
   box-sizing: border-box;
   height: 100%;
@@ -33,59 +28,56 @@ html, body {
   -moz-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
 }
-
 input, button, textarea {
   font-family: inherit;
 }
-
 input::-ms-clear {
   display: none;
 }
-
 button {
   cursor: pointer;
 }
-
 button::-moz-focus-inner {
   padding: 0;
   border: 0;
 }
-
 a, a:visited {
   text-decoration: none;
 }
-
 a:hover {
   text-decoration: none;
 }
-
 ul li {
   list-style: none;
 }
-
 img {
   vertical-align: top;
 }
-
 h1, h2, h3, h4, h5, h6 {
   font-size: inherit;
   font-weight: 400;
 }
 
 .container {
-  background: radial-gradient(circle, rgb(174, 238, 224) 0%, rgb(251, 251, 251) 100%, rgb(148, 187, 233) 100%);
-  padding: 40px 10px 10px 10px;
+  background: url("../img/background.jpg");
+  padding: 10px;
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
 }
 .container h1 {
   font-size: 30px;
-  margin-bottom: 30px;
-  font-weight: 900;
+  margin-bottom: 20px;
+  font-weight: bolder;
+  display: table;
+	margin: 0 auto;
+	font-family: "Roboto Slab";
+	background: linear-gradient(330deg, #e05252 0%, #99e052 25%, #52e0e0 50%, #9952e0 75%, #e05252 100%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
 }
 .container .enterCityBlock {
   display: flex;
@@ -99,10 +91,14 @@ h1, h2, h3, h4, h5, h6 {
 }
 .container label {
   font-size: 20px;
+  font-weight: 400;
+  color: beige;
 }
 .container #cityValue {
   margin: 10px;
   font-size: 20px;
+  box-sizing: border-box;
+  border: none;
 }
 .container span {
   font-size: 12px;
@@ -120,20 +116,24 @@ h1, h2, h3, h4, h5, h6 {
 .container .checkradio p {
   font-size: 20px;
   margin: 15px 20px 15px 0;
+  color: #a9ada4;
 }
 .container .checkradio p:last-child {
   margin: 15px 0;
 }
 .container .btn {
-  background: radial-gradient(circle, rgb(63, 64, 251) 79%, rgb(252, 70, 107) 89%);
+  background: linear-gradient(330deg, #99e052 25%, #52e0e0 50%, #d48b8b 100%);
   width: 60px;
-  height: 30px;
+  height: 22px;
   border-radius: 15px;
   margin: 10px 0;
-  color: aliceblue;
+  font-size: 15px;
+  font-weight: 400;
+  padding: 0 5px; 
+  opacity: 0.8;
 }
-.container .btn-remove {
-  background-color: brown;
+.container .btn:hover {
+  opacity: 1;
 }
 .container #weather {
   display: flex;
@@ -148,15 +148,19 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 .container .weather > div {
+  box-sizing: border-box;
   max-width: 300px;
   min-height: 100px;
   margin: 5px auto;
-  background: radial-gradient(circle, rgb(174, 238, 224) 18%, rgb(190, 181, 218) 53%, rgb(148, 187, 233) 100%);
   border-radius: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
+  color:#a9ada4;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 .container .weather > div .weather-header {
   width: 290px;
@@ -187,7 +191,15 @@ h1, h2, h3, h4, h5, h6 {
   justify-content: space-between;
 }
 .container .weather > div .buttons .btn-forecast, .container .weather > div .buttons .btn-moreDetail {
-  width: 80px;
+  width: 100px;
+  opacity: 0.6;
+  background: none;
+  background-color: #ffffff;
+  opacity: 0.6;
+  font-size: 13px;
+}
+.container .weather > div .buttons .btn-forecast:hover, .container .weather > div .buttons .btn-moreDetail:hover {
+  opacity: 0.9;
 }
 .container .loading img {
   width: 290px;
@@ -199,100 +211,32 @@ h1, h2, h3, h4, h5, h6 {
   height: 150px;
 }
 
-.background-popup {
-  position: fixed;
-  background-color: rgba(0, 0, 0, 0.8);
+.popup{
   width: 100%;
-  height: 100vh;
-  margin-top: -40px;
-  display: none;
-  justify-content: center;
+}
+.btn-close{
+  width: 50px;
+  height: 20px;
+  background-color: #9952e0;
+}
+.flex-forecast{
+  margin: 0 auto;
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  padding: 0 10px;
+  background-color: #fafafa6b;
+  padding:5px 5px 0 5px;
+  border-radius: 15px;
 }
-@media (max-width: 600px) {
-  .background-popup {
-    flex-direction: column;
-  }
-}
-.background-popup .header-popup {
-  width: 150px;
-  height: 150px;
-  background: radial-gradient(circle, rgb(174, 238, 224) 18%, rgb(190, 181, 218) 53%, rgb(148, 187, 233) 100%);
-  font-size: 16px;
+.icon{
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border-radius: 9px;
-}
-.background-popup .header-popup .city {
-  font-size: 24px;
-  font-weight: 900;
-  color: blue;
-  margin: 10px;
-}
-.background-popup .header-popup .checkradio-popup {
-  position: relative;
-  margin-top: 30px;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  font-size: 15px;
-}
-.background-popup .header-popup .checkradio-popup p {
-  margin-right: 15px;
-}
-.background-popup .header-popup .checkradio-popup p:last-child {
-  margin-right: 0;
-}
-.background-popup .btn-close {
-  position: fixed;
-  background: radial-gradient(circle, rgb(174, 238, 224) 18%, rgb(190, 181, 218) 53%, rgb(148, 187, 233) 100%);
-  top: 20px;
-  right: 20px;
-  width: 30px;
-  height: 30px;
-  font-size: 30px;
-}
-.background-popup .container-popup {
-  flex-wrap: wrap;
-  justify-content: space-around;
-  max-width: 500px;
-}
-@media (max-width: 600px) {
-  .background-popup .container-popup {
-    max-width: 60%;
-  }
-}
-.background-popup .container-popup > div {
-  width: 100px;
-  min-height: 100px;
-  margin: 5px auto;
-  background: radial-gradient(circle, rgb(174, 238, 224) 18%, rgb(190, 181, 218) 53%, rgb(148, 187, 233) 100%);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
   align-items: center;
 }
-.background-popup .container-popup > div .weather-header {
-  width: 100px;
-  text-align: center;
-}
-.background-popup .container-popup > div .weather-header .main {
-  text-align: center;
-  margin: 10px auto;
-}
-.background-popup .container-popup > div .weather-header .city {
+.main-popup{
+  margin-left: 30px;
   font-size: 20px;
 }
-.background-popup .container-popup > div .temperature,
-.background-popup .container-popup > div .feels-like,
-.background-popup .container-popup > div p {
-  display: inline;
+.hidden{
+  display: none;
 }
-.background-popup .container-popup > div > div {
-  text-align: center;
-}
-
-/*# sourceMappingURL=style.css.map */

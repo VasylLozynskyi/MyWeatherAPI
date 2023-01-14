@@ -16,6 +16,13 @@ I tride to do search with inputs names cities in many lenguages and many cities 
 7. Do more correct fatch with input city on other lenguages.
 
 -----------------------------------------------------------
-
-![plot](./img/screen_weather.png)
+        A Screenshot
 ![Screenshot](./img/screen_weather.png)
+
+-----------------------------------------------------------
+
+        How to build
+    Clone the repository
+$ git clone https://github.com/VasylLozynskyi/MyWeatherAPI.git
+$ cd MyWeatherAPI
+Open in localhost

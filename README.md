@@ -24,5 +24,7 @@ I tride to do search with inputs names cities in many lenguages and many cities 
         How to build
     Clone the repository
 $ git clone https://github.com/VasylLozynskyi/MyWeatherAPI.git
+
 $ cd MyWeatherAPI
+
 Open in localhost

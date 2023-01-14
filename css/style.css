@@ -59,7 +59,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .container {
-  background: url("../img/background.jpg");
+  background-image: url("../img/background.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   padding: 10px;

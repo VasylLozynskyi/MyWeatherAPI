@@ -19,7 +19,6 @@ class Weather{
         });
         const responseResult = await response.json();
         if (response.ok) {
-            console.log(responseResult);
                 if(this.city == responseResult.name){
                     if(checkCoords){// check if input city in other lenguage then english
                         // save coords if user input name city in other lenguage then english
@@ -77,13 +76,14 @@ class Weather{
         let newEl = document.createElement("div");
         //look if we have error message
        if (value == "Nothing to geocode"){
+            newEl.innerHTML = "";
             newEl.classList.add("notFindCity");
             newEl.innerHTML = `${value}<br>Server coudn't found <b>${this.city}</b> city`; // error message set into weather block we rendering
         } else {
             newEl.innerHTML = value;
             newEl.append(this.createBtns());  //rendering with call function which create buttons(forecast and details)
         }
-        let some = "../img/background.jpg";
+        let some = "";
         let color = "black";
 
         switch (weatherStatus) {
@@ -118,7 +118,6 @@ class Weather{
             default:
                 break;
         }
-        console.log(this.weatherBlock);
         this.weatherBlock.style.backgroundImage = `url("${some}")`;
         newEl.style.color = color;
         this.weatherBlock.append(newEl); // rendering weather block with data-template
@@ -170,8 +169,8 @@ class Weather{
             const responseResult = await response.json();
             if (response.ok) {
                 let checkCoords = false;
+                if (responseResult.length != 0){
                 for (let i = 0; i < responseResult.length; i++){
-                    checkCoords = false;
                     if (responseResult[i].local_names != undefined) {// check data-object have city names unit languages
                         if (Object.values(responseResult[i].local_names).indexOf(this.city) > -1){ // check if found in object-data unit lenguages any name city
                             this.city = responseResult[i].local_names.en; // save city in en lenguage
@@ -191,7 +190,12 @@ class Weather{
                         }
                     }
                 }
-            } else {this.createEl(responseResult.message);} // send message if can't reed server
+            } else { 
+                let loading = document.querySelector(".loading"); //catch html element gif loading
+                if (loading) loading.parentElement.remove(); //check if is - remove
+                this.createEl("Nothing to geocode");}
+            } else {
+                this.createEl(responseResult.message);} // send message if can't reed server
         } else {
             let loading = document.querySelector(".loading"); //catch html element gif loading
             if (loading) loading.parentElement.remove(); //check if is - remove
@@ -208,7 +212,7 @@ class Weather{
             let temp = document.createElement("div");
             temp.innerHTML = `
             <div class="loading">
-                <img src="./img/Loading_icon.gif" alt="loading-gif">
+                 <img src="./img/Loading_icon.gif" alt="loading-gif">
             </div> `;
             this.weatherBlock.innerHTML = "";
             this.weatherBlock.append(temp);

@@ -70,6 +70,10 @@ h1, h2, h3, h4, h5, h6 {
   width: 100%;
   height: 100vh;
 }
+.wrapper-container{
+  width: 40%;
+  text-align: center;
+}
 .container h1 {
   font-size: 30px;
   margin-bottom: 20px;
@@ -84,6 +88,7 @@ h1, h2, h3, h4, h5, h6 {
 .container .enterCityBlock {
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 @media (max-width: 600px) {
   .container .enterCityBlock {
@@ -111,6 +116,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 .container .checkradio {
   display: flex;
+  justify-content: center;
 }
 .container .checkradio input {
   margin: 15px 0;
@@ -138,7 +144,6 @@ h1, h2, h3, h4, h5, h6 {
   opacity: 1;
 }
 .container #weather {
-  width: 320px;
   min-height: 320px;
   box-shadow: 5px 5px 15px 0px rgba(0,0,0,0.8);
   border-radius: 20px;
@@ -148,15 +153,14 @@ h1, h2, h3, h4, h5, h6 {
 }
 .container .weather > div {
   box-sizing: border-box;
-  width: 300px;
-  min-height: 150px;
+  max-width: 300px;
   border-radius: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  background-color: #d3d3d39f;
-  margin: 10px 10px;
+  background-color: #d3d3d3af;
+  margin: 10px auto;
   box-shadow: 5px 5px 15px 0px rgba(0,0,0,0.8);
 }
 .container .weather > div .weather-header {
@@ -252,4 +256,14 @@ h1, h2, h3, h4, h5, h6 {
 }
 .hidden{
   display: none;
+}
+@media (max-width: 798px){
+  .wrapper-container{
+    width: 70%;
+  }
+}
+@media (max-width: 450px){
+  .wrapper-container{
+    width: 100%;
+  }
 }

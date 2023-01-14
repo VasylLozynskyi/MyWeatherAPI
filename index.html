@@ -9,30 +9,32 @@
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>WEATHER</h1>
-        </header>
-        <div class="enterCityBlock">
-            <div>
-                <label for="cityValue">Enter city<label>
-                <input type="text" id="cityValue" name="cityValue">
-                <span class="error-city-name"></span>
+        <div class="wrapper-container">
+            <header>
+                <h1>WEATHER</h1>
+            </header>
+            <div class="enterCityBlock">
+                <div>
+                    <label for="cityValue">Enter city<label>
+                    <input type="text" id="cityValue" name="cityValue">
+                    <span class="error-city-name"></span>
+                </div>
+                <button class="btn">Enter</button>
             </div>
-            <button class="btn">Enter</button>
-        </div>
-        <div class="background-popup">
-          
-        </div>
-        <div class="checkradio">
-            <input type="radio" name="temperature" data-temperature="kelvin" value="kelvin">
-            <p>°K</p>
-            <input type="radio" name="temperature"data-temperature="farenheit" value="farenheit">
-            <p>°F</p>
-            <input type="radio" name="temperature" data-temperature="celsius" value="celsius" checked>
-            <p>°C</p>
-        </div>
-        <div id="weather" class="weather">
+            <div class="background-popup">
             
+            </div>
+            <div class="checkradio">
+                <input type="radio" name="temperature" data-temperature="kelvin" value="kelvin">
+                <p>°K</p>
+                <input type="radio" name="temperature"data-temperature="farenheit" value="farenheit">
+                <p>°F</p>
+                <input type="radio" name="temperature" data-temperature="celsius" value="celsius" checked>
+                <p>°C</p>
+            </div>
+            <div id="weather" class="weather">
+                
+            </div>
         </div>
     </div>
     <script src="./js/scrypt.js"></script>

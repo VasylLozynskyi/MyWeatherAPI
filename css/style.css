@@ -136,51 +136,62 @@ h1, h2, h3, h4, h5, h6 {
   opacity: 1;
 }
 .container #weather {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  max-width: 600px;
-}
-@media (max-width: 600px) {
-  .container #weather {
-    display: block;
-  }
+  width: 320px;
+  min-height: 320px;
+  box-shadow: 5px 5px 15px 0px rgba(0,0,0,0.8);
+  border-radius: 20px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 .container .weather > div {
   box-sizing: border-box;
-  max-width: 300px;
-  min-height: 100px;
-  margin: 5px auto;
+  width: 300px;
+  min-height: 150px;
   border-radius: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  color:#a9ada4;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background-color: #d3d3d39f;
+  margin: 10px 10px;
+  box-shadow: 5px 5px 15px 0px rgba(0,0,0,0.8);
 }
 .container .weather > div .weather-header {
-  width: 290px;
+  width: 100%;
   display: flex;
   justify-content: space-around;
   align-items: center;
+  border-radius: 15px;
+  margin-bottom: 3px;
 }
 .container .weather > div .weather-header .main {
   width: 70%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+}
+.container .weather > div .weather-header .main .status,
+.container .weather > div .weather-header .main .country {
+  font-size: 15px;
+  font-weight: 400;
+
 }
 .container .weather > div .weather-header .city {
-  font-size: 20px;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+.container .weather > div .temper-icon{
+  height: 20px;
 }
 .container .weather > div .temperature,
 .container .weather > div .feels-like,
 .container .weather > div .textContent-feels-like,
 .container .weather > div p {
   display: inline;
+  font-size: 18px;
+  font-weight: 400;
 }
 .container .weather > div .block {
   display: none;
@@ -192,18 +203,19 @@ h1, h2, h3, h4, h5, h6 {
 }
 .container .weather > div .buttons .btn-forecast, .container .weather > div .buttons .btn-moreDetail {
   width: 100px;
-  opacity: 0.6;
   background: none;
-  background-color: #ffffff;
-  opacity: 0.6;
+  background-color: #5223882f;
+  opacity: 0.7;
   font-size: 13px;
+  border: 1px solid #522388;
 }
 .container .weather > div .buttons .btn-forecast:hover, .container .weather > div .buttons .btn-moreDetail:hover {
   opacity: 0.9;
 }
 .container .loading img {
-  width: 290px;
+  width: 300px;
   height: 150px;
+  border-radius: 20px;
 }
 .container .notFindCity {
   text-align: center;
@@ -214,27 +226,26 @@ h1, h2, h3, h4, h5, h6 {
 .popup{
   width: 100%;
 }
-.btn-close{
-  width: 50px;
-  height: 20px;
-  background-color: #9952e0;
-}
 .flex-forecast{
   margin: 0 auto;
-  width: 90%;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #fafafa6b;
+  background-color: #fafafa91;
   padding:5px 5px 0 5px;
   border-radius: 15px;
+  margin-bottom: 5px;
+}
+.flex-forecast:last-child{
+  margin-bottom: 0;
 }
 .icon{
   display: flex;
   align-items: center;
 }
 .main-popup{
-  margin-left: 30px;
+  margin-left: 5px;
   font-size: 20px;
 }
 .hidden{

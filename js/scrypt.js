@@ -56,6 +56,7 @@ class Weather{
             </div>
         </div>
         <div>
+            <img class="temper-icon" src="./img/temperature_icon.png" alt="temperature_icon" >
             <div class="temperature">${temp}</div>
             <p>°C</p>
         </div>
@@ -87,34 +88,38 @@ class Weather{
 
         switch (weatherStatus) {
             case "moderate rain":
-                some = "../img/water-rain.gif";
-                color = "hsla(80%, 80%, 94%)"
+                some = "../img/moderate_rain.webp";
+                //color = "white";
                 break;
             case "light rain":
-                    some = "../img/water-rain.gif";
-                    color = "hsla(80%, 80%, 94%)"
-                    break;
+                some = "../img/light_rain.jpg";
+                break;
             case "few clouds":
-                some = "../img/Lx0q.gif";
-                color = "rgb(32, 27, 27)";
+                some = "../img/few_clouds.jpg";
                 break;
             case "overcast clouds":
-                
+                some = "../img/overcast_clouds.jpg";
                 break;
             case "broken clouds":
-                
+                some = "../img/broken_clouds.jpg";
                 break;
             case "scattered clouds":
-                
+                some = "../img/";
                 break;
             case "clear sky":
-                
+                some = "../img/clear_sky.jpg";
+                break;
+            case "mist":
+                some = "../img/mist.jpg";
+                break;
+            case "snow":
+                some = "../img/snow.jpg";
                 break;
             default:
                 break;
         }
-
-        newEl.style.backgroundImage = `url("${some}")`;
+        console.log(this.weatherBlock);
+        this.weatherBlock.style.backgroundImage = `url("${some}")`;
         newEl.style.color = color;
         this.weatherBlock.append(newEl); // rendering weather block with data-template
     
@@ -253,14 +258,6 @@ class PopupForecast{
     show(popBg){
         if (popBg.innerHTML == ""){
         let p = document.querySelector(".buttons");
-        //let popBg = document.querySelector(".background-popup"); // catch block pop-up
-        let btnClose = document.createElement("button");
-        btnClose.classList.add(".btn-close"); // catch button close
-        btnClose.style.background = "black";
-        btnClose.addEventListener("click", function() {
-            popBg.remove();
-        });
-        popBg.append(btnClose);
         // create and rendering 5 blocks as 5 days info weather
         for (let i = 4; i < this.data.list.length; i = i+8) {
             //create block
